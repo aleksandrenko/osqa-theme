@@ -1,19 +1,20 @@
 @import 'fontelo'
 @import "jquery.autocomplete.css"
 
-$font-size-huge: 15px
-$font-size-large: 14px
-$font-size-big: 13px
 $font-size: 12px
-$font-size-small: 11px
-$font-size-tiny: 10px
+$font-size-big: $font-size + 1
+$font-size-large: $font-size + 2
+$font-size-huge: $font-size + 3
+
+$font-size-small: $font-size - 1
+$font-size-tiny: $font-size - 2
 
 $size-padding-x: 50px
 $size-padding-y: 20px
-$size-padding-content-x: 15px
+$size-padding-content-x: $font-size + 1/5
 $size-padding-content-y: 15px
 
-$size-page: 1200px
+$size-page: 1190px
 $size-page-full: $size-page - 2*$size-padding-x
 $size-page-left: $size-page-full * 75 / 100
 $size-page-right: $size-page-full - $size-page-left - $size-padding-content-x
@@ -43,11 +44,10 @@ $color-background-header: #fbfaf8
 $color-background-content: #ffffff
 $color-background-hover-light: #fdfdfd
 
-$time-transition: 0.3s
+$time-transition: 0.1s
 
 *
   box-sizing: border-box
-
 
 body
   overflow-y: scroll
@@ -70,6 +70,12 @@ button
   border: none !important
   color: #ffffff
   cursor: pointer
+  border-radius: 3px
+  transition: all $time-transition
+  font-size: $font-size
+  
+  &:hover
+    background: darken(#1c46ac, 4%)
 
 input[type="text"],
 input[type="email"],
@@ -109,7 +115,6 @@ hr
   border: solid 1px $color-divider
 
 p
-  line-height: 140%
   margin-bottom: $font-size
 
 a
@@ -205,6 +210,8 @@ blockquote
   margin: 30px auto 0 auto
   width: $size-page
   background-color: $color-background-content
+  border-radius: 4px
+  overflow: hidden
 
 #content
   padding: $size-padding-y $size-padding-x
@@ -238,6 +245,7 @@ blockquote
   margin: 15px auto
 
 #top
+  font-size: $font-size
   position: absolute
   right: $size-padding-x
   height: $size-top-height
@@ -247,7 +255,6 @@ blockquote
     line-height: $size-top-height
     display: inline-block
     color: #333333
-    font-size: $font-size
     margin-left: 20px
     text-align: right
 
@@ -258,53 +265,105 @@ blockquote
 
 #nav
   height: $size-top-height
-  line-height: $size-top-height
-  background-color: #e8e4db
-  padding: 0 $size-padding-x 0 300px
-  
+  padding: 0 $size-padding-x 0 $size-page-right
+  background: #ecebe7
+
   a
-    color: #333333
+    height: $size-top-height
+    line-height: $size-top-height
+    color: #807f7b
     display: block
     float: left
-    margin-left: 10px
-    padding: 0 12px
+    border-right: solid 1px #dcdbd7
+    border-left: solid 1px #f3f2ee
+    padding: 0 12px 3px
     text-decoration: none
-    &.on
-      background: none repeat scroll 0 0 #356FCB
-      color: #FFFFFF
+    text-transform: capitalize
+
+    &:hover
       text-decoration: none
+
+    &.on
+      background: none repeat scroll 0 0 $color-background-header
+      text-decoration: none
+      border-right: solid 1px #dcdbd7
+      border-left: solid 1px #f3f2ee
+      color: #838383
+
     &#nav_ask
       position: absolute
-      top: ($size-roof-height - $size-top-height) /2
+      top: $size-roof-height/2
       right: $size-padding-x
       color: #ffffff
       background: #c72a0b
       z-index: 2
       text-decoration: none
+      padding-left: 1.5em
+      padding-right: 1.5em
+      border-radius: 3px
+      transition: all $time-transition
+
       &:hover
         text-decoration: none
+        background: darken(#c72a0b, 4%)
+
+#nav_questions:before
+  padding-right: $font-size / 3
+  @include icon($question-sign)
+
+#nav_tags:before
+  padding-right: $font-size / 3
+  @include icon($tags)
+
+#nav_users:before
+  padding-right: $font-size / 3
+  @include icon($group)
+
+#nav_badges:before
+  padding-right: $font-size / 3
+  @include icon($asterisk)
+
+#nav_unanswered:before
+  padding-right: $font-size / 3
+  @include icon($frown)
+
+#nav_ask:before
+  padding-right: $font-size / 2
+  @include icon($plus-sign)
 
 #searchBar
   position: absolute
-  top: ($size-roof-height - $size-top-height) /2
+  top: $size-roof-height /2 - 10
   left: $size-padding-x
   padding: 4px 0 0
   width: $size-page - $size-padding-x*2
 
-  .content!
-    .searchInput
-      width: 400px
-    .searchBtn
-      font-size: $font-size-large
-      height: 26px
-      width: 80px
-    .options
-      color: #333333
-      padding: 3px 0
-      input
-        margin: 0 3px 0 15px
-        &:hover
-          cursor: pointer
+  .searchInput
+    width: $size-page-left / 2
+    margin: 0
+    vertical-align: middle
+
+  .searchBtn
+    font-size: $font-size
+    line-height: $font-size
+    vertical-align: middle
+    text-transform: capitalize
+    width: 80px
+    margin: 0
+
+  .options
+    margin-top: 5px
+
+    label
+      margin-right: 10px
+      font-size: $font-size-small
+      cursor: pointer
+
+    input
+      cursor: pointer
+      
+      &:hover
+        cursor: pointer
 
 #listA
   background-color: #FFFFFF
@@ -319,15 +378,15 @@ blockquote
   border-top: 1px solid $color-divider
   float: left
   overflow: hidden
-  padding: 3px 0px 5px 0
+  padding: $size-padding-content-x 0px $size-padding-content-x 0
   position: relative
   width: $size-page-left
 
-  &:hover
-    background: $color-background-hover-light
+  //&:nth-child(2n-1)
+  //  background: $color-background-hover-light
 
 #listA .short-summary:first-of-type
-  border-top: 0
+  border-top: none
 
 .user-stats-table .short-summary
   width: 764px
@@ -335,14 +394,16 @@ blockquote
 .short-summary
   h2 a
     color: $color-link
+
   .userinfo
     color: #666666
     float: right
     margin-top: 8px
+    padding-right: $size-padding-content-x
+    font-size: $font-size-small
 
 .userinfo a, a.userinfo
   color: $color-link
-  font-size: $font-size
 
 .short-summary
   .counts
@@ -356,7 +417,6 @@ blockquote
     width: $size-page-left - 2 * $size-block - $size-padding-content-x
 
   .status
-    box-shadow: inset 0 1px 1px rgba(0,0,0,0.1)
     border-radius: 31px
 
   .votes, .status, .views
@@ -368,9 +428,9 @@ blockquote
     width: $size-block
 
     .item-count
-      font-size: $font-size-huge * 1.7
+      font-size: $font-size-huge * 1.5
       line-height: $font-size-huge
-      margin-top: 5px
+      margin-top: 4px
 
   .votes, .views
     color: #666666
@@ -384,10 +444,16 @@ blockquote
   margin-bottom: 10px
 
 .questions-count
+  font-size: $font-size-large
+  font-weight: bold
   color: #A40000
   margin-top: 3px
   margin-right: 5px
   padding: 0 0 5px 0
+
+  span
+    font-size: $font-size !important
+    font-weight: normal
 
 .boxA
   background: none repeat scroll 0 0 #888A85
@@ -432,10 +498,15 @@ blockquote
 .paginator
   padding: 5px 0 10px
 
-  .prev a, .next a
-    padding: 2px 4px 3px
-    &:visited
-      padding: 2px 4px 3px
+  a, .curr
+    background: $color-background-header
+    border-radius: 1em
+    padding: 0.2em 0.6em
+
+    &:hover
+      background: $color-link
+      color: #ffffff
+      text-decoration: none
 
   .prev
     margin-right: 0.5em
@@ -445,25 +516,13 @@ blockquote
 
   .page
     margin: 0 0.25em
-    padding: 0.25em
-
-    a:visited
-      color: $color-divider
-      margin: 0 0.25em
-      padding: 0.25em
 
   .curr
-    margin: 0 0.25em
-    padding: 0.25em
     color: #FFFFFF
-
-  .page:hover, .prev a:hover, .next a:hover
-    color: #FFFFFF
-    text-decoration: none
+    background: $color-link
 
   .text
-    color: $color-divider
-    padding: 0.3em
+    margin-right: 8px
 
 .paginator-container-left
   padding: 5px 0 10px
@@ -472,13 +531,16 @@ blockquote
   display: block
   line-height: 200%
   margin-top: 5px
+
   a
     background-color: #EEEEEE
     color: $color-text
     font-size: $font-size-small
-    padding: 2px 6px
+    padding: 2px 6px 3px
     text-decoration: none
     white-space: nowrap
+    border-radius: 3px
+    transition: all $time-transition
 
 span.tag
   background-color: #EEEEEE
@@ -506,21 +568,6 @@ a.medal
   &:hover
     text-decoration: none
 
-.tabBar
-  clear: both
-  height: 30px
-  width: 100%
-
-.tabsA
-  display: block
-  float: right
-  height: 20px
-  position: relative
-
-  a
-    display: inline-block
-    text-decoration: none
-
 .sticky-sort-tabs
   display: block
   float: left
@@ -528,28 +575,40 @@ a.medal
   line-height: 22px
   margin: 5px 4px 0 0
   text-decoration: none
-
-.tabsA a
-  padding: 0 11px
-
-.sticky-sort-tabs
   width: 20px
   padding: 0
+
   input
     border: 0
     height: 14px
     width: 14px
     margin: 2px
 
-.tabsA a
-  &.on
-    background: none repeat scroll 0 0 #FFFFFF
-    color: #A40000
-  &:hover
-    background: none repeat scroll 0 0 #FFFFFF
-    color: #A40000
-    background: none repeat scroll 0 0 #356FCB
-    color: #FFFFFF
+.tabBar
+  clear: both
+  height: 30px
+  width: 100%
+  border-bottom: solid 1px $color-divider
+
+.tabsA
+  display: block
+  float: right
+  position: relative
+  vertical-align: top
+
+  a
+    padding: 6px 10px
+    display: inline-block
+    text-decoration: none
+
+    &.on
+      background: none repeat scroll 0 0 $color-divider
+      color: $color-text
+      border-top-left-radius: 3px
+      border-top-right-radius: 3px
+
+    &:hover
+      color: $color-text
 
 .headlineA
   border-bottom: 1px solid $color-divider
@@ -570,6 +629,7 @@ a.medal
   margin-bottom: $font-size
   padding: 3px
   text-align: left
+  font-weight: bold
 
 .headUser
   border-bottom: 1px solid $color-divider
@@ -603,11 +663,19 @@ span.form-error
   font-weight: normal
   margin-left: 5px
 
-ul.errorlist li
-  color: $color-notification-text-error
-  font-weight: normal
-  margin-left: 0px
-  margin-top: 5px
+ul.errorlist
+  list-style: none
+  margin-left: 0
+  
+  li
+    color: $color-notification-text-error
+    font-weight: normal
+    margin-left: 0px
+    margin-top: 5px
+
+    &:before
+      @include icon($warning-sign)
+      margin-right: 3px
 
 .answer
   padding: $size-padding-content-y $size-padding-content-x
@@ -684,12 +752,11 @@ div
     height: 30px
 
 .list-item
-
   ul
     margin: 0
+    list-style-position: inside
 
     li
-      list-style: none
       padding: 0 0 $size-padding-content-y/2 0
       margin-bottom: $size-padding-content-y/2
       border-bottom: solid 1px $color-divider
@@ -717,20 +784,20 @@ table
 
 .error
   color: $color-notification-text-error
-  font-size: $font-size-tiny
+  font-size: $font-size
   margin: 0
 
 .small
-  font-size: $font-size-small
+  font-size: $font-size
 
 span.form-error
   color: $color-notification-text-error
-  font-size: $font-size-small
+  font-size: $font-size
   font-weight: normal
   margin-left: 5px
 
 .title-desc
-  font-size: $font-size-small
+  font-size: $font-size
 
 #editor
   line-height: 18px
@@ -867,154 +934,132 @@ ins
   height: 30px
   line-height: 30px
   margin: $size-padding-content-y/2 0
-  vertical-align: middle
-  background-repeat: no-repeat
-  background-size: 100%
   display: inline-block
   margin-right: 4px
   border-radius: 15px
   color: #fff
   text-align: center
-  text-shadow: 0 1px 1px rgba(0,0,0,0.2)
+  text-shadow: 0 1px 1px rgba(0,0,0,0.2), 0 1px 5px rgba(0,0,0,0.1)
+  box-shadow: inset 0 5px 5px rgba(255,255,255,0.3), inset 0 -5px 15px rgba(0,0,0,0.05), inset 0 -1px 2px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.1)
 
-//Validated Email × 0 User who has validated email associated to the account
 .badge-type-32:before
   @include icon($envelope-alt)
 
-//Автобиографист × 0 Попълнил е всички полета на потребителския профил
 .badge-type-21:before
   @include icon($list-alt)
 
-//Граждански Дълг × 0 Гласувал 300 пъти
 .badge-type-22:before
   @include icon($star)
 
-//Граждански Патрул × 0 Първа маркирана публикация
 .badge-type-16:before
   @include icon($warning-sign)
 
-//Гуру × 0 Приет отговор и с поне 40 положителни гласа
 .badge-type-29:before
-  @include icon($thumbs-up)
+  @include icon($bell-alt)
 
-//Дисциплиниран × 0 Изтри собствена публикация с рейтинг 3 или повече
 .badge-type-12:before
   @include icon($minus-sign)
 
-//Добър Въпрос × 0 Въпрос получил положителен глас 25 пъти
 .badge-type-5:before
   @include icon($thumbs-up-alt)
 
-//Добър Отговор × 0 Отговор получил положителни гласове 25 пъти
 .badge-type-8:before
   @include icon($thumbs-up-alt)
 
-//Експерт × 0 Остават 10 коментара
 .badge-type-23:before
   @include icon($comment-alt)
 
-//Експерт редактор × 0 Редактирал 100 елемента
 .badge-type-25:before
   @include icon($edit-sign)
 
-//Звезден Въпрос × 0 Въпрос добавен в любими от 100 потребители
 .badge-type-11:before
   @include icon($heart)
 
-//Известен Въпрос × 0 Зададе въпрос с поне 2500 преглеждания
 .badge-type-2:before
   @include icon($certificate)
 
-//Критичен × 0 Първи отрицателен вот
 .badge-type-14:before
   @include icon($thumbs-down-alt)
 
-//Любим Въпрос × 0 Въпрос добавен в любими от 25 потребители
 .badge-type-10:before
   @include icon($heart-empty)
 
-//Магьосник × 0 Отговори на въпрос 60 дни по-късно с поне 5 положителни гласа
 .badge-type-30:before
   @include icon($time)
 
-//Организатор × 0 Първи ретаг
 .badge-type-17:before
   @include icon($tag)
 
-//Подкрепящ × 0 Първи положителен вот
 .badge-type-15:before
   @include icon($thumbs-up-alt)
 
-//Популярен Въпрос × 0 Зададе въпрос с поне 1000 преглеждания
 .badge-type-1:before
   @include icon($asterisk)
 
-//Популярен Въпрос × 0 Зададе въпрос с поне 10000 преглеждания
 .badge-type-3:before
   @include icon($eye-open)
 
-//Почистване × 0 Първо почистване
 .badge-type-20:before
   @include icon($cut)
 
-//Просветен × 0 Първия отговор е бил приет с поне 10 гласа
 .badge-type-28:before
-  @include icon($group)
+  @include icon($sun)
 
-//Редактор × 0 Първа редакция
 .badge-type-18:before
-  @include icon($group)
+  @include icon($edit)
 
-//Самоук/а × 0 Отговорил на собствения си въпрос с поне 3 положителни гласа
 .badge-type-24:before
-  @include icon($group)
+  @include icon($book)
 
-//Страхотен Въпрос × 0 Въпрос получил положителен глас 100 пъти
 .badge-type-6:before
-  @include icon($thumbs-up)
+  @include icon($trophy)
 
-//Страхотен Отговор × 0 Отговор получил положителни гласове 100 пъти
 .badge-type-9:before
-  @include icon($group)
+  @include icon($trophy)
 
-//Студент × 0 Зададе първия си въпрос с поне един положителен вот
 .badge-type-26:before
-  @include icon($group)
+  @include icon($adn)
 
-//Таг специалист × 0 Създаде таг използван от 50 въпроса
 .badge-type-31:before
-  @include icon($group)
+  @include icon($ticket)
 
-//Учен × 1 Първи приет отговор на Вашия собствен въпрос
 .badge-type-19:before
-  @include icon($group)
+  @include icon($briefcase)
 
-//Учител × 0 Отговори първи на въпрос с поне едно удобрение.
 .badge-type-27:before
-  @include icon($group)
+  @include icon($compass)
 
-//Хубав Въпрос × 0 Въпрос получил положителен глас 10 пъти
 .badge-type-4:before
-  @include icon($group)
+  @include icon($question-sign)
 
-//Хубав Отговор × 0 Отговор получил положителни гласове 10 пъти
 .badge-type-7:before
-  @include icon($group)
+  @include icon($lightbulb)
 
-//Чист натиск
 .badge-type-13:before
-  @include icon($group)
+  @include icon($shield)
 
 
 
 .badge1
-  background-color: $color-gold
+  color: $color-gold
+
+  &.badge
+    background-color: $color-gold
+    color: #ffffff
 
 .silver, .badge2
-  background-color: $color-silver
+  color: $color-silver
+
+  &.badge
+    background-color: $color-silver
+    color: #ffffff
 
 .bronze, .badge3
-  background-color: $color-bronze
+  color: $color-bronze
+
+  &.badge
+    background-color: $color-bronze
+    color: #ffffff
 
 .score, .accept_rate
   color: #333333
@@ -1531,6 +1576,7 @@ div.dialog
   width: 14px
   height: 14px
   display: inline-block
+  margin-top: 2px
 
 div#subscription_list
   width: 100%
