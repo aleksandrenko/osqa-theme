@@ -1253,7 +1253,7 @@ ins {
   font-size: 15px; }
 
 .strong, strong, b {
-  font-weight: 500; }
+  font-weight: bold; }
 
 .orange {
   color: #d64000; }
